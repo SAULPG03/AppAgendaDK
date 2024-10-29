@@ -58,6 +58,7 @@ public class DataUtil {
             }
         });
     }
+
     public ObservableList<Persona> getOlPersonas() {
         return olPersonas;
     }

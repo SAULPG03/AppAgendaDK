@@ -28,7 +28,7 @@ public class InicioController {
             agendaViewController.setDataUtil(dataUtil);
             agendaViewController.setOlProvincias(olProv);
             agendaViewController.setOlPersonas(olPers);
-            //agendaViewController.cargarTodasPersonas();
+            agendaViewController.cargarTodasPersonas();
         } catch (IOException e) {
             System.out.println("IOException: " + e);
         }

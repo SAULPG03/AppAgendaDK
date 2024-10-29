@@ -7,7 +7,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="appagendadk" />
+        <module name="AppAgendaDesktop" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="appagendadk" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>
