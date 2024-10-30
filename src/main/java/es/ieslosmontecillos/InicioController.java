@@ -23,7 +23,7 @@ public class InicioController {
             FXMLLoader fxmlLoader = new
                     FXMLLoader(getClass().getResource("/fxml/AgendaView.fxml"));
             Pane rootAgendaView = fxmlLoader.load();
-            rootMain.getChildren().add(rootAgendaView);
+                rootMain.getChildren().add(rootAgendaView);
             AgendaViewController agendaViewController = fxmlLoader.getController();
             agendaViewController.setDataUtil(dataUtil);
             agendaViewController.setOlProvincias(olProv);
