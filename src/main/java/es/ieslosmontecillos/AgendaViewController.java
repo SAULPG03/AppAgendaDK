@@ -15,6 +15,7 @@ import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 
@@ -129,9 +130,20 @@ public class AgendaViewController implements Initializable {
             StackPane rootMain =
                     (StackPane) rootAgendaView.getScene().getRoot();
             rootMain.getChildren().add(rootDetalleView);
+            //Intercambio de datos funcionales con el detalle
+            personaDetalleViewController.setTableViewPrevio(tableViewAgenda);
+            personaDetalleViewController.setDataUtil(dataUtil);
+            // Para el botón Nuevo:
+            personaSeleccionada = new Persona();
+            personaDetalleViewController.setPersona(personaSeleccionada,true);
+
+            personaDetalleViewController.mostrarDatos();
+
         } catch (IOException ex){
             System.out.println("Error volcado"+ex);}
+
     }
+
 
 
 
@@ -152,6 +164,14 @@ public class AgendaViewController implements Initializable {
             StackPane rootMain =
                     (StackPane) rootAgendaView.getScene().getRoot();
             rootMain.getChildren().add(rootDetalleView);
+//Intercambio de datos funcionales con el detalle
+            personaDetalleViewController.setTableViewPrevio(tableViewAgenda);
+            personaDetalleViewController.setDataUtil(dataUtil);
+            // Para el botón Editar
+            personaDetalleViewController.setPersona(personaSeleccionada,false);
+
+            personaDetalleViewController.mostrarDatos();
+
         } catch (IOException ex){
             System.out.println("Error volcado"+ex);}
 
@@ -159,6 +179,27 @@ public class AgendaViewController implements Initializable {
     }
 
     public void onActionButtonSuprimir(ActionEvent actionEvent) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmar");
+        alert.setHeaderText("¿Desea suprimir el siguiente registro?");
+        alert.setContentText(personaSeleccionada.getNombre() + " " + personaSeleccionada.getApellidos());
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            // Acciones a realizar si el usuario acepta
+            dataUtil.eliminarPersona(personaSeleccionada);
+            tableViewAgenda.getItems().remove(personaSeleccionada);
+            tableViewAgenda.getFocusModel().focus(null);
+            tableViewAgenda.requestFocus();
+        } else {
+            // Acciones a realizar si el usuario cancela
+            int numFilaSeleccionada=
+                    tableViewAgenda.getSelectionModel().getSelectedIndex();
+            tableViewAgenda.getItems().set(numFilaSeleccionada,personaSeleccionada);
+            TablePosition pos = new TablePosition(tableViewAgenda,
+                    numFilaSeleccionada,null);
+            tableViewAgenda.getFocusModel().focus(pos);
+            tableViewAgenda.requestFocus();
+        }
     }
 
 }
