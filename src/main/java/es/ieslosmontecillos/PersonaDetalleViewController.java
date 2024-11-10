@@ -6,6 +6,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+
 public class PersonaDetalleViewController {
     @javafx.fxml.FXML
     private TextField textFieldNombre;
@@ -40,6 +45,11 @@ public class PersonaDetalleViewController {
     private Persona persona;
     private DataUtil dataUtil;
     private boolean nuevaPersona;
+
+    char estadoCivil;
+    public static final char CASADO='C';
+    public static final char SOLTERO='S';
+    public static final char VIUDO='V';
 
 
     @javafx.fxml.FXML
@@ -136,5 +146,29 @@ public class PersonaDetalleViewController {
         } else {
             dataUtil.actualizarPersona(persona);
         }
+
+        if (persona.getEstadoCivil() != null){
+            switch(persona.getEstadoCivil()){
+                case CASADO:
+                    radioButtonCasado.setSelected(true);
+                    break;
+                case SOLTERO:
+                    radioButtonSoltero.setSelected(true);
+                    break;
+                case VIUDO:
+                    radioButtonViudo.setSelected(true);
+                    break;
+            }
+        }
+
+        if (persona.getFechaNacimiento() != null){
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+            Date fecNac = formato.parse(persona.getFechaNacimiento());
+            LocalDate fechaNac =
+                    fecNac.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            datePickerFechaNacimiento.setValue(fechaNac);
+        }
+
+
     }
 }
