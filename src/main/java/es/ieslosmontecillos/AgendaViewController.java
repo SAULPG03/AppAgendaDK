@@ -153,9 +153,8 @@ public class AgendaViewController implements Initializable {
         try{
 // Cargar la vista de detalle
             FXMLLoader fxmlLoader = new
-                    FXMLLoader(getClass().getResource("fxml/PersonaDetalleView.fxml"));
-            PersonaDetalleViewController personaDetalleViewController =
-                    (PersonaDetalleViewController) fxmlLoader.getController();
+                    FXMLLoader(getClass().getResource("/fxml/PersonaDetalleView.fxml"));
+            PersonaDetalleViewController personaDetalleViewController = (PersonaDetalleViewController) fxmlLoader.getController();
             personaDetalleViewController.setRootAgendaView(rootAgendaView);
             Parent rootDetalleView=fxmlLoader.load();
 // Ocultar la vista de la lista

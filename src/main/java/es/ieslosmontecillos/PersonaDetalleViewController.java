@@ -1,6 +1,8 @@
 package es.ieslosmontecillos;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -11,6 +13,7 @@ import javafx.util.StringConverter;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.text.ParseException;
@@ -19,61 +22,59 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
-public class PersonaDetalleViewController {
-    @javafx.fxml.FXML
+public class PersonaDetalleViewController implements Initializable {
+    @FXML
     private TextField textFieldNombre;
-    @javafx.fxml.FXML
+    @FXML
     private TextField textFieldTelefono;
-    @javafx.fxml.FXML
+    @FXML
     private RadioButton radioButtonViudo;
-    @javafx.fxml.FXML
+    @FXML
     private DatePicker datePickerFechaNacimiento;
-    @javafx.fxml.FXML
+    @FXML
     private TextField textFieldNumHijos;
-    @javafx.fxml.FXML
+    @FXML
     private CheckBox checkBoxJubilado;
-    @javafx.fxml.FXML
+    @FXML
     private RadioButton radioButtonSoltero;
-    @javafx.fxml.FXML
+    @FXML
     private TextField textFieldSalario;
-    @javafx.fxml.FXML
+    @FXML
     private RadioButton radioButtonCasado;
-    @javafx.fxml.FXML
+    @FXML
     private ImageView imageViewFoto;
-    @javafx.fxml.FXML
+    @FXML
     private TextField textFieldEmail;
-    @javafx.fxml.FXML
+    @FXML
     private ComboBox<Provincia> comboBoxProvincia;
-    @javafx.fxml.FXML
+    @FXML
     private TextField textFieldApellidos;
     private Pane rootAgendaView;
     private Pane rootPersonaDetalleView;
 
-    private TableView tableViewPrevio;
+    private TableView<Persona> tableViewPrevio;
     private Persona persona;
     private DataUtil dataUtil;
     private boolean nuevaPersona;
 
     char estadoCivil;
-    public static final char CASADO='C';
-    public static final char SOLTERO='S';
-    public static final char VIUDO='V';
+    public static final char CASADO = 'C';
+    public static final char SOLTERO = 'S';
+    public static final char VIUDO = 'V';
 
-    public static final String CARPETA_FOTOS="Fotos";
+    public static final String CARPETA_FOTOS = "Fotos";
 
     boolean errorFormato = false;
 
 
-
-
-
-
-    @javafx.fxml.FXML
-    public void initialize() {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        String error = "Algo esta pasando";
     }
 
-    @javafx.fxml.FXML
+    @FXML
     public void onActionButtonCancelar(ActionEvent actionEvent) {
         StackPane rootMain =
                 (StackPane) rootPersonaDetalleView.getScene().getRoot();
@@ -82,16 +83,16 @@ public class PersonaDetalleViewController {
         int numFilaSeleccionada =
                 tableViewPrevio.getSelectionModel().getSelectedIndex();
         TablePosition pos = new TablePosition(tableViewPrevio,
-                numFilaSeleccionada,null);
+                numFilaSeleccionada, null);
         tableViewPrevio.getFocusModel().focus(pos);
         tableViewPrevio.requestFocus();
 
     }
 
-    @javafx.fxml.FXML
+    @FXML
     public void onActionButtonExaminar(ActionEvent actionEvent) {
         File carpetaFotos = new File(CARPETA_FOTOS);
-        if (!carpetaFotos.exists()){
+        if (!carpetaFotos.exists()) {
             carpetaFotos.mkdir();
         }
         FileChooser fileChooser = new FileChooser();
@@ -99,76 +100,76 @@ public class PersonaDetalleViewController {
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Imágenes (jpg, png)", "*.jpg",
                         "*.png"),
-                new FileChooser.ExtensionFilter("Todos los archivos","*.*"));
+                new FileChooser.ExtensionFilter("Todos los archivos", "*.*"));
         File file = fileChooser.showOpenDialog(
                 rootPersonaDetalleView.getScene().getWindow());
-        if (file != null){
+        if (file != null) {
             try {
-                Files.copy(file.toPath(),new File(CARPETA_FOTOS+
-                        "/"+file.getName()).toPath());
+                Files.copy(file.toPath(), new File(CARPETA_FOTOS +
+                        "/" + file.getName()).toPath());
                 persona.setFoto(file.getName());
                 Image image = new Image(file.toURI().toString());
                 imageViewFoto.setImage(image);
-            } catch (FileAlreadyExistsException ex){
-                Alert alert = new Alert(Alert.AlertType.WARNING,"Nombre de archivo duplicado");
-                        alert.showAndWait();
-            } catch (IOException ex){
-                Alert alert = new Alert(Alert.AlertType.WARNING,"No se ha podido guardar la imagen");
-                        alert.showAndWait();
+            } catch (FileAlreadyExistsException ex) {
+                Alert alert = new Alert(Alert.AlertType.WARNING, "Nombre de archivo duplicado");
+                alert.showAndWait();
+            } catch (IOException ex) {
+                Alert alert = new Alert(Alert.AlertType.WARNING, "No se ha podido guardar la imagen");
+                alert.showAndWait();
             }
         }
     }
 
-    @javafx.fxml.FXML
+    @FXML
     public void onActionButtonGuardar(ActionEvent actionEvent) {
         StackPane rootMain =
                 (StackPane) rootPersonaDetalleView.getScene().getRoot();
         rootMain.getChildren().remove(rootPersonaDetalleView);
         rootAgendaView.setVisible(true);
         int numFilaSeleccionada;
-        if (nuevaPersona){
+        if (nuevaPersona) {
             tableViewPrevio.getItems().add(persona);
-            numFilaSeleccionada = tableViewPrevio.getItems().size()- 1;
+            numFilaSeleccionada = tableViewPrevio.getItems().size() - 1;
             tableViewPrevio.getSelectionModel().select(numFilaSeleccionada);
             tableViewPrevio.scrollTo(numFilaSeleccionada);
         } else {
-            numFilaSeleccionada=
+            numFilaSeleccionada =
                     tableViewPrevio.getSelectionModel().getSelectedIndex();
-            tableViewPrevio.getItems().set(numFilaSeleccionada,persona);
+            tableViewPrevio.getItems().set(numFilaSeleccionada, persona);
         }
         TablePosition pos = new TablePosition(tableViewPrevio,
-                numFilaSeleccionada,null);
+                numFilaSeleccionada, null);
         tableViewPrevio.getFocusModel().focus(pos);
         tableViewPrevio.requestFocus();
     }
 
-    public void setRootAgendaView(Pane rootAgendaView){
+    public void setRootAgendaView(Pane rootAgendaView) {
         this.rootAgendaView = rootAgendaView;
     }
 
-    public void setTableViewPrevio(TableView tableViewPrevio){
-        this.tableViewPrevio=tableViewPrevio;
+    public void setTableViewPrevio(TableView tableViewPrevio) {
+        this.tableViewPrevio = tableViewPrevio;
     }
 
-    public void setPersona(Persona persona, Boolean nuevaPersona){
-        if (!nuevaPersona){
-            this.persona= persona;
+    public void setPersona(Persona persona, Boolean nuevaPersona) {
+        if (!nuevaPersona) {
+            this.persona = persona;
         } else {
             this.persona = new Persona();
         }
-        this.nuevaPersona=nuevaPersona;
+        this.nuevaPersona = nuevaPersona;
     }
 
     public void setDataUtil(DataUtil dataUtil) {
     }
 
-    public void mostrarDatos(){
+    public void mostrarDatos() {
 
         textFieldNombre.setText(persona.getNombre());
         textFieldTelefono.setText(persona.getTelefono());
         //radioButtonViudo.setSelected(true);
         //datePickerFechaNacimiento.set
-        if (persona.getNumHijos() != null){
+        if (persona.getNumHijos() != null) {
             textFieldNumHijos.setText(persona.getNumHijos().toString());
         }
         if (persona.getJubilado() != null && persona.getJubilado() == 1) {
@@ -177,7 +178,7 @@ public class PersonaDetalleViewController {
             checkBoxJubilado.setSelected(false);
         }
         //radioButtonSoltero
-        if (persona.getSalario() != null){
+        if (persona.getSalario() != null) {
             textFieldSalario.setText(persona.getSalario().toString());
         }
         //radioButtonCasado
@@ -186,14 +187,14 @@ public class PersonaDetalleViewController {
         //comboBoxProvincia
         textFieldApellidos.setText(persona.getApellidos());
 
-        if (nuevaPersona){
+        if (nuevaPersona) {
             dataUtil.addPersona(persona);
         } else {
             dataUtil.actualizarPersona(persona);
         }
 
-        if (persona.getEstadoCivil() != null){
-            switch(persona.getEstadoCivil().charAt(0)){
+        if (persona.getEstadoCivil() != null) {
+            switch (persona.getEstadoCivil().charAt(0)) {
                 case CASADO:
                     radioButtonCasado.setSelected(true);
                     break;
@@ -206,7 +207,7 @@ public class PersonaDetalleViewController {
             }
         }
 
-        if (persona.getFechaNacimiento() != null){
+        if (persona.getFechaNacimiento() != null) {
             SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
             Date fecNac = null;
             try {
@@ -293,40 +294,40 @@ public class PersonaDetalleViewController {
                 }
             }
 
-            if (!textFieldSalario.getText().isEmpty()){
+            if (!textFieldSalario.getText().isEmpty()) {
                 try {
                     Double dSalario = Double.valueOf(textFieldSalario.getText());
 
                     persona.setSalario(dSalario);
-                } catch(NumberFormatException ex) {
+                } catch (NumberFormatException ex) {
                     errorFormato = true;
                     Alert alert = new Alert(Alert.AlertType.INFORMATION, "Salario no válido");
-                            alert.showAndWait();
+                    alert.showAndWait();
                     textFieldSalario.requestFocus();
                 }
             }
 
-            if(checkBoxJubilado.isSelected()){
+            if (checkBoxJubilado.isSelected()) {
                 Integer jubilado = 1;
                 persona.setJubilado(jubilado);
-            };
+            }
+            ;
 
-            if (radioButtonCasado.isSelected()){
+            if (radioButtonCasado.isSelected()) {
                 persona.setEstadoCivil(String.valueOf(CASADO));
-            } else if (radioButtonSoltero.isSelected()){
+            } else if (radioButtonSoltero.isSelected()) {
                 persona.setEstadoCivil(String.valueOf(SOLTERO));
-            } else if (radioButtonViudo.isSelected()){
+            } else if (radioButtonViudo.isSelected()) {
                 persona.setEstadoCivil(String.valueOf(VIUDO));
             }
 
-            if (comboBoxProvincia.getValue() != null){
+            if (comboBoxProvincia.getValue() != null) {
                 persona.setProvincia(comboBoxProvincia.getValue());
             } else {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION,"Debe indicar una provincia");
-                        alert.showAndWait();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Debe indicar una provincia");
+                alert.showAndWait();
                 errorFormato = true;
             }
-
 
 
         }
@@ -335,9 +336,9 @@ public class PersonaDetalleViewController {
     public void onActionSuprimirFoto(ActionEvent actionEvent) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmar supresión de imagen");
-        alert.setHeaderText("¿Desea SUPRIMIR el archivo asociado a la imagen,\n"+ "quitar la foto pero MANTENER el arc"+
-                        "hivo, \no CANCELAR la operación?");
-                alert.setContentText("Elija la opción deseada:");
+        alert.setHeaderText("¿Desea SUPRIMIR el archivo asociado a la imagen,\n" + "quitar la foto pero MANTENER el arc" +
+                "hivo, \no CANCELAR la operación?");
+        alert.setContentText("Elija la opción deseada:");
         ButtonType buttonTypeEliminar = new ButtonType("Suprimir");
         ButtonType buttonTypeMantener = new ButtonType("Mantener");
         ButtonType buttonTypeCancel = new ButtonType("Cancelar",
@@ -345,7 +346,7 @@ public class PersonaDetalleViewController {
         alert.getButtonTypes().setAll(buttonTypeEliminar, buttonTypeMantener,
                 buttonTypeCancel);
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == buttonTypeEliminar){
+        if (result.get() == buttonTypeEliminar) {
             String imageFileName = persona.getFoto();
             File file = new File(CARPETA_FOTOS + "/" + imageFileName);
             if (file.exists()) {
@@ -359,3 +360,4 @@ public class PersonaDetalleViewController {
         }
     }
 }
+

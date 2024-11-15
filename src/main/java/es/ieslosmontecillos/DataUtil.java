@@ -18,7 +18,7 @@ public class DataUtil {
         System.out.println("Se están solicitando las provincias...");
         RestClient restClient = RestClient.create()
                 .method("GET")
-                .host("http://192.168.1.140:8080")
+                .host("http://localhost:8080")
                 .path("/api/v1/PROVINCIA");
         GluonObservableList<Provincia> provincias =
                 DataProvider.retrieveList(restClient.createListDataReader(Provincia.class));
@@ -41,7 +41,7 @@ public class DataUtil {
     public void obtenerTodasPersonas(){
         RestClient restClient = RestClient.create()
                 .method("GET")
-                .host("http://192.168.1.140:8080")
+                .host("http://localhost:8080")
                 .path("/api/v1/PERSONA");
         GluonObservableList<Persona> personas =
                 DataProvider.retrieveList(restClient.createListDataReader(Persona.class));

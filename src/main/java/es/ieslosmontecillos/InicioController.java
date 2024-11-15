@@ -5,7 +5,6 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import java.io.IOException;
 public class InicioController {
@@ -14,14 +13,14 @@ public class InicioController {
     @FXML
     private Label label;
     private DataUtil dataUtil;
-    ObservableList olProv;
-    ObservableList olPers;
+    ObservableList <Provincia> olProv;
+    ObservableList <Persona> olPers;
     private Pane rootMain = new Pane();
     @FXML
     public void iniciaApp(Event event){
         try{
             FXMLLoader fxmlLoader = new
-                    FXMLLoader(getClass().getResource("/fxml/AgendaView.fxml"));
+                    FXMLLoader(getClass().getResource("/es/ieslosmontecillos/fxml/AgendaView.fxml"));
             Pane rootAgendaView = fxmlLoader.load();
                 rootMain.getChildren().add(rootAgendaView);
             AgendaViewController agendaViewController = fxmlLoader.getController();
