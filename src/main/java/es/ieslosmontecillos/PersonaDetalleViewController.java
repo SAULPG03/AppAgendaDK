@@ -159,6 +159,7 @@ public class PersonaDetalleViewController implements Initializable {
                     tableViewPrevio.getSelectionModel().getSelectedIndex();
             tableViewPrevio.getItems().set(numFilaSeleccionada, persona);
         }
+        tableViewPrevio.refresh();
         TablePosition pos = new TablePosition(tableViewPrevio,
                 numFilaSeleccionada, null);
         tableViewPrevio.getFocusModel().focus(pos);

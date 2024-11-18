@@ -131,7 +131,8 @@ public class AgendaViewController implements Initializable {
 
             PersonaDetalleViewController personaDetalleViewController =
                     (PersonaDetalleViewController) fxmlLoader.getController();
-            personaDetalleViewController.setRootDetalleView(rootAgendaView);
+
+            personaDetalleViewController.setRootDetalleView(rootDetalleView);
             personaDetalleViewController.setRootAgendaView(rootAgendaView);
 
 
