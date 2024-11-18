@@ -10,13 +10,18 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Paint;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+
+import static java.awt.Color.WHITE;
+import static java.awt.Color.white;
 
 
 public class AgendaViewController implements Initializable {
@@ -117,14 +122,20 @@ public class AgendaViewController implements Initializable {
     @FXML
     private void onActionButtonNuevo(ActionEvent event){
         try{
-// Cargar la vista de detalle
+            // Cargar la vista de detalle
             FXMLLoader fxmlLoader = new
                     FXMLLoader(getClass().getResource("fxml/PersonaDetalleView.fxml"));
+            Pane rootDetalleView=fxmlLoader.load();
+
+            rootDetalleView.setBackground(Background.fill(Paint.valueOf("WHITE")));
+
             PersonaDetalleViewController personaDetalleViewController =
                     (PersonaDetalleViewController) fxmlLoader.getController();
+            personaDetalleViewController.setRootDetalleView(rootAgendaView);
             personaDetalleViewController.setRootAgendaView(rootAgendaView);
-            Parent rootDetalleView=fxmlLoader.load();
-// Ocultar la vista de la lista
+
+
+            // Ocultar la vista de la lista
             rootAgendaView.setVisible(false);
             //Añadir la vista detalle al StackPane principal para que se muestre
             StackPane rootMain =
@@ -151,19 +162,24 @@ public class AgendaViewController implements Initializable {
 
     public void onActionButtonEditar(ActionEvent actionEvent) {
         try{
-// Cargar la vista de detalle
+            // Cargar la vista de detalle
             FXMLLoader fxmlLoader = new
-                    FXMLLoader(getClass().getResource("/fxml/PersonaDetalleView.fxml"));
-            PersonaDetalleViewController personaDetalleViewController = (PersonaDetalleViewController) fxmlLoader.getController();
+                    FXMLLoader(getClass().getResource("fxml/PersonaDetalleView.fxml"));
+            Pane rootDetalleView=fxmlLoader.load();
+            rootDetalleView.setBackground(Background.fill(Paint.valueOf("WHITE")));
+
+            PersonaDetalleViewController personaDetalleViewController =
+                    (PersonaDetalleViewController) fxmlLoader.getController();
+
+            personaDetalleViewController.setRootDetalleView(rootDetalleView);
             personaDetalleViewController.setRootAgendaView(rootAgendaView);
-            Parent rootDetalleView=fxmlLoader.load();
-// Ocultar la vista de la lista
+            // Ocultar la vista de la lista
             rootAgendaView.setVisible(false);
             //Añadir la vista detalle al StackPane principal para que se muestre
             StackPane rootMain =
                     (StackPane) rootAgendaView.getScene().getRoot();
             rootMain.getChildren().add(rootDetalleView);
-//Intercambio de datos funcionales con el detalle
+            //Intercambio de datos funcionales con el detalle
             personaDetalleViewController.setTableViewPrevio(tableViewAgenda);
             personaDetalleViewController.setDataUtil(dataUtil);
             // Para el botón Editar

@@ -74,6 +74,28 @@ public class PersonaDetalleViewController implements Initializable {
         String error = "Algo esta pasando";
     }
 
+
+    public void setRootDetalleView(Pane rootPersonaDetalleView) {
+        this.rootPersonaDetalleView = rootPersonaDetalleView;
+    }
+
+    public void setTableViewPrevio(TableView tableViewPrevio) {
+        this.tableViewPrevio = tableViewPrevio;
+    }
+
+    public void setPersona(Persona persona, Boolean nuevaPersona) {
+        if (!nuevaPersona) {
+            this.persona = persona;
+        } else {
+            this.persona = new Persona();
+        }
+        this.nuevaPersona = nuevaPersona;
+    }
+
+    public void setDataUtil(DataUtil dataUtil) {
+        this.dataUtil=dataUtil;
+    }
+
     @FXML
     public void onActionButtonCancelar(ActionEvent actionEvent) {
         StackPane rootMain =
@@ -143,25 +165,6 @@ public class PersonaDetalleViewController implements Initializable {
         tableViewPrevio.requestFocus();
     }
 
-    public void setRootAgendaView(Pane rootAgendaView) {
-        this.rootAgendaView = rootAgendaView;
-    }
-
-    public void setTableViewPrevio(TableView tableViewPrevio) {
-        this.tableViewPrevio = tableViewPrevio;
-    }
-
-    public void setPersona(Persona persona, Boolean nuevaPersona) {
-        if (!nuevaPersona) {
-            this.persona = persona;
-        } else {
-            this.persona = new Persona();
-        }
-        this.nuevaPersona = nuevaPersona;
-    }
-
-    public void setDataUtil(DataUtil dataUtil) {
-    }
 
     public void mostrarDatos() {
 
@@ -307,11 +310,7 @@ public class PersonaDetalleViewController implements Initializable {
                 }
             }
 
-            if (checkBoxJubilado.isSelected()) {
-                Integer jubilado = 1;
-                persona.setJubilado(jubilado);
-            }
-            ;
+            persona.setJubilado(checkBoxJubilado.isSelected() ? 1 : 0);
 
             if (radioButtonCasado.isSelected()) {
                 persona.setEstadoCivil(String.valueOf(CASADO));
@@ -358,6 +357,10 @@ public class PersonaDetalleViewController implements Initializable {
             persona.setFoto(null);
             imageViewFoto.setImage(null);
         }
+    }
+
+    public void setRootAgendaView(Pane rootAgendaView) {
+        this.rootAgendaView = rootAgendaView;
     }
 }
 

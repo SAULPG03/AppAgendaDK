@@ -22,11 +22,12 @@ public class InicioController {
             FXMLLoader fxmlLoader = new
                     FXMLLoader(getClass().getResource("/es/ieslosmontecillos/fxml/AgendaView.fxml"));
             Pane rootAgendaView = fxmlLoader.load();
-                rootMain.getChildren().add(rootAgendaView);
+            rootMain.getChildren().add(rootAgendaView);
             AgendaViewController agendaViewController = fxmlLoader.getController();
             agendaViewController.setDataUtil(dataUtil);
             agendaViewController.setOlProvincias(olProv);
             agendaViewController.setOlPersonas(olPers);
+            agendaViewController.setRootAgendaView(rootAgendaView);
             agendaViewController.cargarTodasPersonas();
         } catch (IOException e) {
             System.out.println("IOException: " + e);
