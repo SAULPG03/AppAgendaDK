@@ -18,7 +18,7 @@ public class DataUtil {
         System.out.println("Se están solicitando las provincias...");
         RestClient restClient = RestClient.create()
                 .method("GET")
-                .host("http://localhost:8080")
+                .host("http://192.168.12.179:8080")
                 .path("/api/v1/PROVINCIA");
         GluonObservableList<Provincia> provincias =
                 DataProvider.retrieveList(restClient.createListDataReader(Provincia.class));
@@ -41,7 +41,7 @@ public class DataUtil {
     public void obtenerTodasPersonas(){
         RestClient restClient = RestClient.create()
                 .method("GET")
-                .host("http://localhost:8080")
+                .host("http://192.168.12.179:8080")
                 .path("/api/v1/PERSONA");
         GluonObservableList<Persona> personas =
                 DataProvider.retrieveList(restClient.createListDataReader(Persona.class));
@@ -67,7 +67,7 @@ public class DataUtil {
 
         RestClient restClient = RestClient.create()
                 .method("DELETE")
-                .host("http://localhost:8080")
+                .host("http://192.168.12.179:8080")
                 .path("/api/v1/PERSONA/"+idPersona);
         GluonObservableList<Persona> personas =
                 DataProvider.retrieveList(restClient.createListDataReader(Persona.class));
@@ -82,7 +82,7 @@ public class DataUtil {
 
         RestClient restClient = RestClient.create()
                 .method("POST")
-                .host("http://localhost:8080")
+                .host("http://192.168.12.179:8080")
                 .path("/api/v1/PERSONA")
                 .dataString(dataBody)
                 .contentType("application/json");
@@ -98,7 +98,7 @@ public class DataUtil {
 
         RestClient restClient = RestClient.create()
                 .method("PUT")
-                .host("http://localhost:8080")
+                .host("http://192.168.12.179:8080")
                 .path("/api/v1/PERSONA/"+idPersona)
                 .dataString(dataBody)
                 .contentType("application/json");
@@ -109,7 +109,7 @@ public class DataUtil {
         int idPersona = id.intValue();
         RestClient restClient = RestClient.create()
                 .method("GET")
-                .host("http://localhost:8080")
+                .host("http://192.168.12.179:8080")
                 .path("/api/v1/PERSONA/"+idPersona);
         GluonObservableObject<Persona> persona =
                 DataProvider.retrieveObject(restClient.createObjectDataReader(Persona.class));
@@ -124,7 +124,7 @@ public class DataUtil {
         int idProvincia = id.intValue();
         RestClient restClient = RestClient.create()
                 .method("GET")
-                .host("http://localhost:8080")
+                .host("http://192.168.12.179:8080")
                 .path("/api/v1/PROVINCIA/"+idProvincia);
         GluonObservableObject<Provincia> provincia =
                 DataProvider.retrieveObject(restClient.createObjectDataReader(Provincia.class)
