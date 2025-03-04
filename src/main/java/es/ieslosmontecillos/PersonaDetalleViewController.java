@@ -148,6 +148,17 @@ public class PersonaDetalleViewController implements Initializable {
                 (StackPane) rootPersonaDetalleView.getScene().getRoot();
         rootMain.getChildren().remove(rootPersonaDetalleView);
         rootAgendaView.setVisible(true);
+
+        persona.setNombre(textFieldNombre.getText());
+        persona.setApellidos(textFieldApellidos.getText());
+        persona.setTelefono(textFieldTelefono.getText());
+        persona.setEmail(textFieldEmail.getText());
+        if (nuevaPersona){
+            dataUtil.addPersona(persona);
+        } else {
+            dataUtil.actualizarPersona(persona);
+        }
+
         int numFilaSeleccionada;
         if (nuevaPersona) {
             tableViewPrevio.getItems().add(persona);
@@ -237,7 +248,7 @@ public class PersonaDetalleViewController implements Initializable {
                             if (provincia == null || empty) {
                                 setText("");
                             } else {
-                                setText(provincia.getCodigo() + "-" + provincia.getNombre());
+                                setText(provincia.getNombre());
                             }
                         }
                     });
@@ -248,7 +259,7 @@ public class PersonaDetalleViewController implements Initializable {
                     if (provincia == null) {
                         return null;
                     } else {
-                        return provincia.getCodigo() + "-" + provincia.getNombre();
+                        return provincia.getNombre();
                     }
                 }
 
