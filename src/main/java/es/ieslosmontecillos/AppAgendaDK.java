@@ -3,7 +3,6 @@ import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import com.gluonhq.charm.glisten.mvc.View;
 import java.io.IOException;
@@ -16,8 +15,12 @@ public class AppAgendaDK extends Application {
     private InicioView inicioView = new InicioView();
     private InicioController inicioController;
 
+
     @Override
     public void start(Stage primaryStage) throws IOException {
+        Usuario usuario = new Usuario();
+        String email="asir.ieslosmontecillos@gmail.com";
+        String clave="Contrasena1";
         StackPane rootMain = new StackPane();
         View inicio = inicioView.getView();
         rootMain.getChildren().add(inicio);
@@ -28,6 +31,7 @@ public class AppAgendaDK extends Application {
         dataUtil.obtenerTodasProvincias();
         ObservableList<Provincia> olProv = dataUtil.getOlProvincias();
         dataUtil.obtenerTodasPersonas();
+        usuario= dataUtil.buscarUsuario(email,clave);
         ObservableList<Persona> olPers = dataUtil.getOlPersonas();
         // Pasamos los datos obtenidos a la clase controladora de inicio
         inicioController.setDataUtil(dataUtil);

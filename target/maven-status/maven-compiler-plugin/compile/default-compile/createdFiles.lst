@@ -6,7 +6,10 @@ es\ieslosmontecillos\DataUtil$2.class
 es\ieslosmontecillos\InicioController.class
 es\ieslosmontecillos\AppAgendaDK.class
 es\ieslosmontecillos\DataUtil.class
+es\ieslosmontecillos\LoginController.class
 es\ieslosmontecillos\PersonaDetalleViewController$2.class
+es\ieslosmontecillos\Login.class
 es\ieslosmontecillos\InicioView.class
 es\ieslosmontecillos\PersonaDetalleViewController$1.class
 es\ieslosmontecillos\Provincia.class
+es\ieslosmontecillos\Usuario.class

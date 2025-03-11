@@ -14,11 +14,29 @@ public class DataUtil {
             FXCollections.observableArrayList();
     private ObservableList<Persona> olPersonas =
             FXCollections.observableArrayList();
+    public Usuario buscarUsuario(String usuario,String clave) {
+        System.out.println("Se esta buscando el usuario...");
+
+        RestClient restClient = RestClient.create()
+                .method("POST")
+                .host("http://192.168.100.22:8081")
+                .path("/api/usuario/login")
+                .queryParam("email", usuario)
+                .queryParam("pass", clave);
+        GluonObservableObject<Usuario> persona =
+                DataProvider.retrieveObject(restClient.createObjectDataReader(Usuario.class));
+        persona.initializedProperty().addListener((obs, ov, nv) -> {
+            if (nv && persona.get() != null) {
+                System.out.println("Recuperando persona seleccionada de la BD "+persona.get().getBody().getEmail()+" "+persona.get().getBody().getClave());
+            }
+        });
+        return persona.get();
+    }
     public void obtenerTodasProvincias(){
         System.out.println("Se están solicitando las provincias...");
         RestClient restClient = RestClient.create()
                 .method("GET")
-                .host("http://192.168.1.164:8080")
+                .host("http://192.168.8.38:8080")
                 .path("/api/v1/PROVINCIA");
         GluonObservableList<Provincia> provincias =
                 DataProvider.retrieveList(restClient.createListDataReader(Provincia.class));
@@ -41,7 +59,7 @@ public class DataUtil {
     public void obtenerTodasPersonas(){
         RestClient restClient = RestClient.create()
                 .method("GET")
-                .host("http://192.168.1.164:8080")
+                .host("http://192.168.8.38:8080")
                 .path("/api/v1/PERSONA");
         GluonObservableList<Persona> personas =
                 DataProvider.retrieveList(restClient.createListDataReader(Persona.class));
@@ -67,7 +85,7 @@ public class DataUtil {
 
         RestClient restClient = RestClient.create()
                 .method("DELETE")
-                .host("http://192.168.1.164:8080")
+                .host("http://192.168.8.38:8080")
                 .path("/api/v1/PERSONA/"+idPersona);
         GluonObservableList<Persona> personas =
                 DataProvider.retrieveList(restClient.createListDataReader(Persona.class));
@@ -82,7 +100,7 @@ public class DataUtil {
 
         RestClient restClient = RestClient.create()
                 .method("POST")
-                .host("http://192.168.1.164:8080")
+                .host("http://192.168.8.38:8080")
                 .path("/api/v1/PERSONA")
                 .dataString(dataBody)
                 .contentType("application/json");
@@ -98,7 +116,7 @@ public class DataUtil {
 
         RestClient restClient = RestClient.create()
                 .method("PUT")
-                .host("http://192.168.1.164:8080")
+                .host("http://192.168.8.38:8080")
                 .path("/api/v1/PERSONA/"+idPersona)
                 .dataString(dataBody)
                 .contentType("application/json");
@@ -109,7 +127,7 @@ public class DataUtil {
         int idPersona = id.intValue();
         RestClient restClient = RestClient.create()
                 .method("GET")
-                .host("http://192.168.1.164:8080")
+                .host("http://192.168.8.38:8080")
                 .path("/api/v1/PERSONA/"+idPersona);
         GluonObservableObject<Persona> persona =
                 DataProvider.retrieveObject(restClient.createObjectDataReader(Persona.class));
@@ -124,7 +142,7 @@ public class DataUtil {
         int idProvincia = id.intValue();
         RestClient restClient = RestClient.create()
                 .method("GET")
-                .host("http://192.168.1.164:8080")
+                .host("http://192.168.8.38:8080")
                 .path("/api/v1/PROVINCIA/"+idProvincia);
         GluonObservableObject<Provincia> provincia =
                 DataProvider.retrieveObject(restClient.createObjectDataReader(Provincia.class)
