@@ -14,17 +14,16 @@ public class DataUtil {
             FXCollections.observableArrayList();
     private ObservableList<Persona> olPersonas =
             FXCollections.observableArrayList();
-    public Usuario buscarUsuario(String usuario,String clave) {
+    public Login buscarUsuario(String usuario, String clave) {
         System.out.println("Se esta buscando el usuario...");
 
         RestClient restClient = RestClient.create()
                 .method("POST")
-                .host("http://192.168.100.22:8081")
-                .path("/api/usuario/login")
+                .host("http://localhost:8081")
+                .path("/api/v1/LOGIN")
                 .queryParam("email", usuario)
                 .queryParam("pass", clave);
-        GluonObservableObject<Usuario> persona =
-                DataProvider.retrieveObject(restClient.createObjectDataReader(Usuario.class));
+        GluonObservableObject<Login> persona = DataProvider.retrieveObject(restClient.createObjectDataReader(Login.class));
         persona.initializedProperty().addListener((obs, ov, nv) -> {
             if (nv && persona.get() != null) {
                 System.out.println("Recuperando persona seleccionada de la BD "+persona.get().getBody().getEmail()+" "+persona.get().getBody().getClave());

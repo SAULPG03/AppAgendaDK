@@ -5,52 +5,54 @@ import javafx.beans.property.*;
 import javax.xml.bind.annotation.XmlElement;
 
 public class Login {
-    private final IntegerProperty id = new SimpleIntegerProperty();
-    private final StringProperty email = new SimpleStringProperty();
-    private final StringProperty clave = new SimpleStringProperty();
-    private final BooleanProperty vigencia = new SimpleBooleanProperty();
+
+    private final SimpleStringProperty type=new SimpleStringProperty();
+    private final SimpleIntegerProperty rpta=new SimpleIntegerProperty();
+    private final SimpleStringProperty message=new SimpleStringProperty();
+    private final ObjectProperty body = new SimpleObjectProperty();
     //campo id
-    @XmlElement(name = "id")
-    public Integer getId() {
-        return id.get();
+    @XmlElement(name = "rpta")
+    public Integer getRpta() {
+        return rpta.get();
     }
-    public IntegerProperty idProperty(){
-        return id;
+    public IntegerProperty rptaProperty(){
+        return rpta;
     }
-    public void setId(Integer id) {
-        this.id.set(id);
+    public void setRpta(Integer rpta) {
+        this.rpta.set(rpta);
     }
     //campo clave
-    @XmlElement(name = "clave")
-    public String getClave() {
-        return clave.get();
+    @XmlElement(name = "type")
+    public String getType() {
+        return type.get();
     }
-    public StringProperty claveProperty(){
-        return clave;
+    public StringProperty typeProperty(){
+        return type;
     }
-    public void setClave(String clave) {
-        this.clave.set(clave);
+    public void setType(String type) {
+        this.type.set(type);
     }
     //campo email
-    @XmlElement(name = "email")
-    public String getEmail() {
-        return email.get();
+    @XmlElement(name = "message")
+    public String getMessage() {
+        return message.get();
     }
-    public StringProperty emailProperty(){
-        return email;
+    public StringProperty messageProperty(){
+        return message;
     }
-    public void setEmail(String email) {
-        this.email.set(email);
+    public void setMesagge(String message) {
+        this.message.set(message);
     }
     //campo vigencia
-    @XmlElement(name = "vigencia")
-    public boolean getVigencia() {
-        return vigencia.get();
+    @XmlElement(name = "body")
+    public Usuario getBody() {
+        return (Usuario) body.get();
     }
-    public BooleanProperty vigenciaProperty(){
-        return vigencia;
+    public ObjectProperty bodyProperty() {
+        return body;
     }
-    public void setVigencia(Boolean vigencia) {
-        this.vigencia.set(vigencia);
+    public void setBody(Usuario body) {
+        this.body.set(body);
     }
 }
+
