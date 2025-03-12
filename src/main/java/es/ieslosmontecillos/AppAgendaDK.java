@@ -18,6 +18,9 @@ public class AppAgendaDK extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+        Usuario usuario = new Usuario();
+        String email="asir.ieslosmontecillos@gmail.com";
+        String clave="Contrasena1";
         StackPane rootMain = new StackPane();
         View inicio = inicioView.getView();
         rootMain.getChildren().add(inicio);
@@ -28,14 +31,12 @@ public class AppAgendaDK extends Application {
         dataUtil.obtenerTodasProvincias();
         ObservableList<Provincia> olProv = dataUtil.getOlProvincias();
         dataUtil.obtenerTodasPersonas();
+        usuario= dataUtil.buscarUsuario(email,clave);
         ObservableList<Persona> olPers = dataUtil.getOlPersonas();
-        dataUtil.obtenerTodosUsuarios();
-        ObservableList<Login> olLogin = dataUtil.getOlLogins();
         // Pasamos los datos obtenidos a la clase controladora de inicio
         inicioController.setDataUtil(dataUtil);
         inicioController.setOlProv(olProv);
         inicioController.setOlPers(olPers);
-        inicioController.setOlLogins(olLogin);
         inicioController.setRootMain(rootMain);
         Scene scene = new Scene(rootMain,758,482);
         primaryStage.setTitle("App Agenda");

@@ -51,7 +51,8 @@ public class Usuario {
     public ObjectProperty bodyProperty() {
         return body;
     }
-    public void setBody(Login body) {this.body.set(body);
+    public void setBody(Login body) {
+        this.body.set(body);
     }
 }
 

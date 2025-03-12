@@ -14,50 +14,23 @@ public class DataUtil {
             FXCollections.observableArrayList();
     private ObservableList<Persona> olPersonas =
             FXCollections.observableArrayList();
-    private ObservableList<Login> olLogin=FXCollections.observableArrayList();
-    public void actualizarUsuario(Login usuario){
-        int idPersona = usuario.getId().intValue();
-
-        JsonConverter<Login> converter = new JsonConverter<>(Login.class);
-        JsonObject json = converter.writeToJson(usuario);
-        String dataBody = json.toString();
+    public Usuario buscarUsuario(String usuario,String clave) {
+        System.out.println("Se esta buscando el usuario...");
 
         RestClient restClient = RestClient.create()
-                .method("PUT")
+                .method("POST")
                 .host("http://192.168.100.22:8081")
-                .path("/api/usuario/"+idPersona)
-                .dataString(dataBody)
-                .contentType("application/json");
-        GluonObservableObject<Login> personaActualizada =
-                DataProvider.retrieveObject(restClient.createObjectDataReader(Login.class));
-        System.out.println("El usuario se ha actualizado\n"+personaActualizada);
-    }
-    public void obtenerTodosUsuarios() {
-        System.out.println("Se esta buscando los usuarios...");
-
-        RestClient restClient = RestClient.create()
-                .method("GET")
-                .host("http://192.168.100.22:8081")
-                .path("/api/usuario/usuarios");
-        GluonObservableList<Login> logins =
-                DataProvider.retrieveList(restClient.createListDataReader(Login.class));
-        logins.addListener(new ListChangeListener<Login>() {
-            @Override
-            public void onChanged(javafx.collections.ListChangeListener.Change<?
-                    extends Login> c) {
-                if(c.next()){
-                    olLogin.add(c.getList().get(c.getFrom()));
-                    System.out.println("Lista usuarios: " +
-                            olLogin.get(c.getFrom()).getId() + "-" +
-                            olLogin.get(c.getFrom()).getEmail()+"-"+
-                            olLogin.get(c.getFrom()).getClave()+"-"+
-                            olLogin.get(c.getFrom()).getVigencia());
-                }
+                .path("/api/usuario/login")
+                .queryParam("email", usuario)
+                .queryParam("pass", clave);
+        GluonObservableObject<Usuario> persona =
+                DataProvider.retrieveObject(restClient.createObjectDataReader(Usuario.class));
+        persona.initializedProperty().addListener((obs, ov, nv) -> {
+            if (nv && persona.get() != null) {
+                System.out.println("Recuperando persona seleccionada de la BD "+persona.get().getBody().getEmail()+" "+persona.get().getBody().getClave());
             }
         });
-    }
-    public ObservableList<Login> getOlLogins() {
-        return olLogin;
+        return persona.get();
     }
     public void obtenerTodasProvincias(){
         System.out.println("Se están solicitando las provincias...");
