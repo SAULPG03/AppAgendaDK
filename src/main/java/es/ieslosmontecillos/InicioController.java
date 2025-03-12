@@ -5,6 +5,7 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import java.io.IOException;
 public class InicioController {
@@ -12,26 +13,36 @@ public class InicioController {
     private View inicio;
     @FXML
     private Label label;
+    @FXML
+    private TextField textFieldUsuario;
+    @FXML
+    private TextField textFieldContrasena;
     private DataUtil dataUtil;
     ObservableList <Provincia> olProv;
     ObservableList <Persona> olPers;
+    ObservableList<Login> olLogin;
     private Pane rootMain = new Pane();
     @FXML
     public void iniciaApp(Event event){
-        try{
-            FXMLLoader fxmlLoader = new
-                    FXMLLoader(getClass().getResource("/es/ieslosmontecillos/fxml/AgendaView.fxml"));
-            Pane rootAgendaView = fxmlLoader.load();
-            rootMain.getChildren().add(rootAgendaView);
-            AgendaViewController agendaViewController = fxmlLoader.getController();
-            agendaViewController.setDataUtil(dataUtil);
-            agendaViewController.setOlProvincias(olProv);
-            agendaViewController.setOlPersonas(olPers);
-            agendaViewController.setRootAgendaView(rootAgendaView);
-            agendaViewController.cargarTodasPersonas();
-        } catch (IOException e) {
-            System.out.println("IOException: " + e);
-        }
+            if(textFieldUsuario.getText().equals("Admin")&&textFieldContrasena.getText().equals("Admin")){
+                try {
+                    FXMLLoader fxmlLoader = new
+                            FXMLLoader(getClass().getResource("/es/ieslosmontecillos/fxml/AgendaView.fxml"));
+                    Pane rootAgendaView = fxmlLoader.load();
+                    rootMain.getChildren().add(rootAgendaView);
+                    AgendaViewController agendaViewController = fxmlLoader.getController();
+                    agendaViewController.setDataUtil(dataUtil);
+                    agendaViewController.setOlProvincias(olProv);
+                    agendaViewController.setOlPersonas(olPers);
+                    agendaViewController.setOlLogin(olLogin);
+                    //agendaViewController.setRootAgendaView(rootAgendaView);
+                    agendaViewController.cargarTodasPersonas();
+                    inicio.setVisible(false);
+                } catch (IOException e) {
+                    System.out.println("IOException: " + e);
+                }
+            }
+
     }
     public void setRootMain(Pane rootMain) {
         this.rootMain = rootMain;
@@ -44,5 +55,11 @@ public class InicioController {
     }
     public void setOlPers(ObservableList olPers) {
         this.olPers = olPers;
+    }
+    public void setOlLogins(ObservableList olLogin) {
+        this.olLogin = olLogin;
+    }
+    public Pane getRootMain() {
+        return rootMain;
     }
 }
